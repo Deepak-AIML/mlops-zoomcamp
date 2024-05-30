@@ -1,0 +1,15 @@
+artifact_uri: file:///home/deepak/Documents/mlops_zoomcamp/mlops-zoomcamp/homework-2/mlruns/0/74e61321c2f8477eb942c89a3acf2500/artifacts
+end_time: 1717052402660
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 74e61321c2f8477eb942c89a3acf2500
+run_name: masked-midge-63
+run_uuid: 74e61321c2f8477eb942c89a3acf2500
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1717052388991
+status: 3
+tags: []
+user_id: deepak

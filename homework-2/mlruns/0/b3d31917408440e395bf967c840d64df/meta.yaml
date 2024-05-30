@@ -1,0 +1,15 @@
+artifact_uri: file:///home/deepak/Documents/mlops_zoomcamp/mlops-zoomcamp/homework-2/mlruns/0/b3d31917408440e395bf967c840d64df/artifacts
+end_time: 1717052854640
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: b3d31917408440e395bf967c840d64df
+run_name: popular-kite-282
+run_uuid: b3d31917408440e395bf967c840d64df
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1717052840825
+status: 3
+tags: []
+user_id: deepak
