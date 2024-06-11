@@ -1,0 +1,80 @@
+import pandas as pd
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+import plotly as plt
+from sklearn.feature_extraction import DictVectorizer
+
+
+if 'transformer' not in globals():
+    from mage_ai.data_preparation.decorators import transformer
+if 'test' not in globals():
+    from mage_ai.data_preparation.decorators import test
+
+
+def create_feature_matrix(df: pd.DataFrame, col_1: str, col_2: str):
+    # Convert the DataFrame to a list of dictionaries
+    data = df.copy()
+    data_dict = data[[col_1, col_2]].astype(str).to_dict(orient='records')
+    
+    # Create an instance of DictVectorizer
+    dict_vectorizer = DictVectorizer()
+    
+    # Fit and transform the data
+    feature_matrix = dict_vectorizer.fit_transform(data_dict)
+    
+    # Get the feature names
+    feature_names = dict_vectorizer.get_feature_names_out()
+    
+    # Get the dimensionality of the feature matrix
+    dimensionality = feature_matrix.shape[1]
+    print(f"\nDimensionality of the Feature Matrix: {dimensionality}")
+    
+    return feature_matrix, feature_names, dict_vectorizer
+
+
+@transformer
+def export_data(data, *args, **kwargs):
+    """
+    Exports data to some source.
+
+    Args:
+        data: The output from the upstream parent block
+        args: The output from any additional upstream blocks (if applicable)
+
+    Output (optional):
+        Optionally return any object and it'll be logged and
+        displayed when inspecting the block run.
+    """
+    # Specify your data exporting logic here
+    col1 = 'PULocationID'
+    col2 = 'DOLocationID'
+
+    feature_matrix, feature_names, dict_vectorizer = create_feature_matrix(data, 'PULocationID', 'DOLocationID')
+
+    # Separate the target variable
+    target = data['duration']
+
+    # Train a plain linear regression model
+    model = LinearRegression()
+    model.fit(feature_matrix, target)
+
+    # Predict on the training data
+    predictions = model.predict(feature_matrix)
+
+    # Calculate the RMSE
+    rmse = np.sqrt(mean_squared_error(target, predictions))
+    print(f"\nRMSE on the training data: {rmse}")
+
+    # Print the intercept of the model
+    print(f"Intercept of the model: {model.intercept_}")
+
+    return dict_vectorizer, model
+
+
+@test
+def test_output(output, *args) -> None:
+    """
+    Template code for testing the output of the block.
+    """
+    assert output is not None, 'The output is undefined'
