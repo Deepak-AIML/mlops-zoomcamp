@@ -1,0 +1,12 @@
+FROM agrigorev/zoomcamp-model:mlops-2024-3.10.13-slim
+
+WORKDIR /app
+
+# Copy the script into the container
+COPY starter.py .
+
+# Install necessary dependencies
+RUN pip install pandas pyarrow scikit-learn==1.5.0
+
+# Set the entrypoint to run the script
+ENTRYPOINT ["python", "starter.py"]
